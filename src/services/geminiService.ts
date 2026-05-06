@@ -1,6 +1,13 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Use VITE_ prefix for client-side environment variables (Standard for Vite/Netlify)
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+
+if (!apiKey) {
+  console.warn("GEMINI_API_KEY is not defined. Please set VITE_GEMINI_API_KEY in your environment.");
+}
+
+const ai = new GoogleGenAI({ apiKey: apiKey || "" });
 
 export interface ProductionPlan {
   understanding: string;
